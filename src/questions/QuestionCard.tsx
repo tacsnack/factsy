@@ -23,7 +23,7 @@ const cardStyle = {
 };
 
 const cardNotSelectedStyle = {
-  backgroundColor: '#1A2027',
+  backgroundColor: '#2F20F2',
   transitionDuration: "0.3s",
   height: "20vw"
 };
@@ -43,7 +43,7 @@ function QuestionCard(props: CardProps) {
     <Card style={ flipped ? cardStyle : cardNotSelectedStyle }>
       {flipped ? (
         <CardContent>
-          <h5 className="strong"><strong>{question.name}</strong></h5>
+          {/* <h5 className="strong"><strong>{question.name}</strong></h5> */}
           <p>{question.full}</p>
           <Button variant="contained"onClick={() => {onCancel();}}>
             <span className="icon-edit "></span>
