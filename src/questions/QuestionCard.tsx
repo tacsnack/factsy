@@ -1,62 +1,44 @@
 import { Question } from './Question';
 import React, { useState } from 'react';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import { styled } from '@mui/material/styles';
 import CardContent from '@mui/material/CardContent';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body1,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
-
-
-const cardStyle = {
+const defaultCardStyle = {
+  backgroundColor: "#fafafa",
   display: "block",
   transitionDuration: "0.3s",
-  height: "20vw"
 };
 
-const cardNotSelectedStyle = {
-  backgroundColor: '#2F20F2',
-  transitionDuration: "0.3s",
-  height: "20vw"
-};
 
+function cardStyleFlipped(color: string) {
+  return {
+    backgroundColor: color,
+    transitionDuration: "0.3s",
+  };
+}
 
 interface CardProps {
     question: Question;
     onFlip: (question: Question) => void;
-    onCancel: () => void;
+    onCheck: (question: Question) => void;
     flipped: boolean;
 }
 
+
 function QuestionCard(props: CardProps) {
   const [questionFlipped, setquestionFlipped] = useState({});
-  const { question, onFlip, onCancel, flipped} = props;
+  const { question, onFlip, onCheck, flipped} = props;
   return (
-    <Card style={ flipped ? cardStyle : cardNotSelectedStyle }>
-      {flipped ? (
+    <Card 
+      style={flipped ? cardStyleFlipped(question.color) : defaultCardStyle} 
+      onClick={() => { flipped ? onCheck(question) : onFlip(question)}}>
+      { flipped ? (
         <CardContent>
-          {/* <h5 className="strong"><strong>{question.name}</strong></h5> */}
-          <p>{question.full}</p>
-          <Button variant="contained"onClick={() => {onCancel();}}>
-            <span className="icon-edit "></span>
-            Flip
-          </Button>
+          <h4 className="strong">&#128054;</h4>
         </CardContent>
       ) : (
-        <CardContent>
-          <h5 className="strong"><strong>Flip Me</strong></h5>
-          <Button variant="contained"onClick={() => {onFlip(question);}}>
-            <span className="icon-edit "></span>
-            Flip
-          </Button>
+        <CardContent >
+          <h5 className="strong"><strong>?</strong></h5>
         </CardContent>
       )}
     </Card>

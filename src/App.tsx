@@ -1,13 +1,20 @@
-
-import Container from '@mui/material/Container';
+import React from 'react'
 import { QUESTIONS } from './questions/MockQuestions';
-import QuestionContainer from './questions/QuestionContainer';
+import Game from './Game';
 
 function App() {
+  var initialQuestions = [];
+  for (var q in QUESTIONS) {
+    // console.log(q);
+    initialQuestions.push(QUESTIONS[q]);
+    initialQuestions.push({...QUESTIONS[q]});
+    initialQuestions[initialQuestions.length-1].id += 10;
+  }
+  // initialQuestions = [].push.apply(QUESTIONS, QUESTIONS);
+  initialQuestions = initialQuestions.sort( () => .5 - Math.random() );
+
   return (
-  <Container maxWidth="sm">
-    <QuestionContainer questions={QUESTIONS}></QuestionContainer>
-  </Container>
+    <Game initialQuestions={initialQuestions}/>
   );
 }
 
