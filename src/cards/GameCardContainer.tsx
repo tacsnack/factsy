@@ -1,11 +1,11 @@
-import { Question } from './Question';
-import QuestionCard from "./QuestionCard";
+import { GameCardContent } from './GameCardContent';
+import GameCard from "./GameCard";
 import Grid from '@mui/material/Grid';
 import React, { useState } from 'react';
 
 
-interface ProjectListProps {
-  questions: Question[];
+interface ContainerProps {
+  cards: GameCardContent[];
   onComplete: () => void;
 }
 
@@ -13,16 +13,16 @@ function isComplete(element: any, index: any, array: any) {
   return (element.isComplete); 
 } 
 
-function QuestionContainer(props: ProjectListProps) {
+function GameCardContainer(props: ContainerProps) {
   const [lastFlipped, setlastFlipped] = useState({});
-  const { questions, onComplete } = props;
-  const flipQuestion = (q: Question) => {
+  const { cards, onComplete } = props;
+  const flipQuestion = (q: GameCardContent) => {
     if (q.isComplete) {
       return;
     }
-    console.log(lastFlipped);
+    // console.log(lastFlipped);
     if (Object.keys(lastFlipped).length != 0) {
-      const flip = lastFlipped as Question;
+      const flip = lastFlipped as GameCardContent;
       if (q == flip) {
         return
       }
@@ -42,28 +42,28 @@ function QuestionContainer(props: ProjectListProps) {
       setlastFlipped(q);
       q.isFlipped = true;
     }    
-    if (questions.every(isComplete)) {
+    if (cards.every(isComplete)) {
       onComplete();
     }
   };
-  const flipCheck = (q: Question) => {
+  const flipCheck = (q: GameCardContent) => {
     console.log("Just Checking");
   };
-  const items = questions.map(q => (
+  const items = cards.map(q => (
     <Grid item xs={4}>
       {q.isFlipped ? (
-        <QuestionCard key={q.id} question={q} onFlip={flipQuestion} onCheck={flipCheck} flipped={true}></QuestionCard>
+        <GameCard key={q.id} card={q} onFlip={flipQuestion} onCheck={flipCheck} flipped={true}></GameCard>
       ) : (
-        <QuestionCard key={q.id} question={q} onFlip={flipQuestion} onCheck={flipCheck} flipped={false}></QuestionCard>
+        <GameCard key={q.id} card={q} onFlip={flipQuestion} onCheck={flipCheck} flipped={false}></GameCard>
       )}
     </Grid>
   ));
   
   return (
-    <Grid container spacing={2} alignItems="stretch">
+    <Grid container spacing={2} alignItems="center" justifyContent='center' >
       {items}
     </Grid>
   );
 }
 
-export default QuestionContainer;
+export default GameCardContainer;

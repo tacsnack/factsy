@@ -9,14 +9,16 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import Typography from '@mui/material/Typography';
 
+
 export interface GameOverDialogProps {
   gameState: string;
   open: boolean;
   onClose: (value: string) => void;
+  points: number;
 }
 
 function GameOverDialog(props: GameOverDialogProps) {
-  const { gameState, onClose, open } = props;
+  const { gameState, onClose, open, points} = props;
 
   const handleClose = () => {
     onClose('closed');
@@ -26,16 +28,28 @@ function GameOverDialog(props: GameOverDialogProps) {
     onClose('reset');
   };
 
+  var dialog = "Wanna Play?";
+  if (gameState === "init") {
+    dialog = "Click Stuff"
+  }
+  if (gameState === "lose") {
+    dialog = `You got ${points} points`
+  }
+
+  var dialogStart = "Start";
+  if (gameState === "init") {
+    dialogStart = "Start"
+  }
+  if (gameState === "lose") {
+    dialogStart = "Start Over"
+  }
+
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>You {gameState}</DialogTitle>
+      <DialogTitle>{dialog}</DialogTitle>
       <List sx={{ pt: 0 }}>
         <ListItem autoFocus button onClick={() => handleReset()}>
-          <ListItemAvatar>
-            <Avatar>
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Reset" />
+          <ListItemText primary={dialogStart} />
         </ListItem>
       </List>
     </Dialog>
@@ -43,34 +57,3 @@ function GameOverDialog(props: GameOverDialogProps) {
 }
 
 export default GameOverDialog;
-
-// export default function SimpleDialogDemo() {
-//   const [open, setOpen] = React.useState(false);
-//   const [selectedValue, setSelectedValue] = React.useState(emails[1]);
-
-//   const handleClickOpen = () => {
-//     setOpen(true);
-//   };
-
-//   const handleClose = (value: string) => {
-//     setOpen(false);
-//     setSelectedValue(value);
-//   };
-
-//   return (
-//     <div>
-//       <Typography variant="subtitle1" component="div">
-//         Selected: {selectedValue}
-//       </Typography>
-//       <br />
-//       <Button variant="outlined" onClick={handleClickOpen}>
-//         Open simple dialog
-//       </Button>
-//       <SimpleDialog
-//         selectedValue={selectedValue}
-//         open={open}
-//         onClose={handleClose}
-//       />
-//     </div>
-//   );
-// }
