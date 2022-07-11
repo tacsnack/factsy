@@ -11,7 +11,7 @@ export const CARDS = [
   new GameCardContent({
     id: 2,
     name: 0x1F436,
-    color: colors.red[500],
+    color: colors.orange[500],
   }),
   new GameCardContent({
     id: 3,

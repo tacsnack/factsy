@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 
-function LinearProgressWithLabel(props: LinearProgressProps & { value: number, seconds: number, level: number, points: number}) {
+function LinearProgressWithLabel(props: LinearProgressProps & { value: number, seconds: number, level: number, points: number, name: string}) {
     return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ width: '100%', mr: 1 }}>
@@ -12,6 +12,9 @@ function LinearProgressWithLabel(props: LinearProgressProps & { value: number, s
             </Box>
             <Box sx={{ minWidth: 50 }}>
                 <Typography variant="body2" color="text.secondary">{`${Math.round(props.seconds)}s`}</Typography>
+            </Box>
+            <Box sx={{ minWidth: 100 }}>
+                <Typography variant="body2" color="text.secondary">Player: {props.name}</Typography>
             </Box>
             <Box sx={{ minWidth: 100 }}>
                 <Typography variant="body2" color="text.secondary">Points: {props.points}</Typography>
@@ -35,16 +38,17 @@ class TimerState {
 }
 
 
-interface TimerProps {
+interface Props {
     timerState: TimerState;
     onTick: () => void;
     level: number;
     points: number;
+    name: string;
 }
 
 
-const Timer = (props: TimerProps) => {
-    const {timerState, onTick, level, points} = props;
+const HUD = (props: Props) => {
+    const {timerState, onTick, level, points, name} = props;
     const tick = () => {
         onTick();
     };
@@ -59,8 +63,9 @@ const Timer = (props: TimerProps) => {
             value={timerState.seconds/timerState.max*100}
             seconds={timerState.seconds}
             level={level}
-            points={points}/>
+            points={points}
+            name={name}/>
     );
 }
 
-export default Timer;
+export default HUD;

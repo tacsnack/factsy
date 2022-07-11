@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 interface ContainerProps {
   cards: GameCardContent[];
   onComplete: () => void;
+  onCardComplete: () => void;
 }
 
 function isComplete(element: any, index: any, array: any) { 
@@ -15,7 +16,7 @@ function isComplete(element: any, index: any, array: any) {
 
 function GameCardContainer(props: ContainerProps) {
   const [lastFlipped, setlastFlipped] = useState({});
-  const { cards, onComplete } = props;
+  const { cards, onComplete, onCardComplete } = props;
   const flipQuestion = (q: GameCardContent) => {
     if (q.isComplete) {
       return;
@@ -30,6 +31,7 @@ function GameCardContainer(props: ContainerProps) {
         q.isFlipped = true;
         flip.isComplete = true;
         q.isComplete = true;
+        onCardComplete();
         setlastFlipped({});
       }
       else {
