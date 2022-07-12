@@ -1,7 +1,6 @@
 import * as React from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 
@@ -28,11 +27,9 @@ function GameOverDialog(props: GameOverDialogProps) {
   return (
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>"{name}" got {points} points</DialogTitle>
-      <List sx={{ pt: 0 }}>
-        <ListItem autoFocus button onClick={() => handleReset()}>
-          <ListItemText primary="Leader Board" />
-        </ListItem>
-      </List>
+      <Box component="span" sx={{ p: 2 }}>
+        <Button variant="outlined" onClick={() => handleReset()}>Leader Board</Button>
+      </Box>
     </Dialog>
   );
 }

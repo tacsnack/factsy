@@ -52,11 +52,11 @@ function GameCardContainer(props: ContainerProps) {
     console.log("Just Checking");
   };
   const items = cards.map(q => (
-    <Grid item xs={4}>
+    <Grid key={q.id} item xs={4}>
       {q.isFlipped ? (
-        <GameCard key={q.id} card={q} onFlip={flipQuestion} onCheck={flipCheck} flipped={true}></GameCard>
+        <GameCard card={q} onFlip={flipQuestion} onCheck={flipCheck} flipped={true}></GameCard>
       ) : (
-        <GameCard key={q.id} card={q} onFlip={flipQuestion} onCheck={flipCheck} flipped={false}></GameCard>
+        <GameCard card={q} onFlip={flipQuestion} onCheck={flipCheck} flipped={false}></GameCard>
       )}
     </Grid>
   ));

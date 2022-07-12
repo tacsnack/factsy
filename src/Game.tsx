@@ -5,6 +5,7 @@ import { CARDS } from './cards/MockCards';
 import HUD from './HUD';
 import GameOverDialog from './DialogGameOver';
 import LeaderBoardDialog from './DialogLeaderBoard';
+import {Score} from './Score';
 import NameDialog from './DialogName';
 import Container from '@mui/material/Container';
 import { database } from "./Firebase"; 
@@ -44,6 +45,7 @@ const Game = () => {
     const maxSeconds = 20;
     const [time, setTime] = React.useState({seconds: maxSeconds, max: maxSeconds});
     const [cards, setCards] = React.useState<GameCardContent[]>([]);
+    const [scores, setScores] = React.useState<Score[]>([]);
     const [open, setOpen] = React.useState(false);
     const [level, setLevel] = React.useState(0);
     const [points, setPoints] = React.useState(0);
@@ -52,7 +54,20 @@ const Game = () => {
     const [user, setUser] = React.useState("");
     const [currentGameState, setcurrentGameState] = React.useState('init');
 
-    const shuffleCards = () => {
+    const fetchData = ()=>{
+        database.collection("scores").orderBy("score", "desc").limit(10).get().then((querySnapshot) => {
+            // Loop through the data and store
+            // it in array to display
+            var new_scores: Score[] = []
+            querySnapshot.forEach(item => {
+                var new_score = new Score({name:  item.data().name, score: item.data().score, id: item.id})
+                new_scores.push(new_score)
+            });
+            setScores(new_scores)
+        })
+    }
+
+    const shuffleCards = (lev: number) => {
         var shuffledCards : GameCardContent[] = [];
         for (var q in CARDS) {
             // console.log(q);
@@ -60,8 +75,8 @@ const Game = () => {
             shuffledCards.push({...CARDS[q]});
             shuffledCards[shuffledCards.length-1].id += 10;
         }
-        if (level > 0) { shuffledCards = shuffledCards.sort( () => .5 - Math.random() ); } // not good rando... 
-        if (level > 1) { shuffledCards = shuffle(shuffledCards) }
+        if (lev > 0) { shuffledCards = shuffledCards.sort( () => .5 - Math.random() ); } // not good rando... 
+        if (lev > 5) { shuffledCards = shuffle(shuffledCards) } // better...
         setCards(shuffledCards)
     }
 
@@ -91,7 +106,7 @@ const Game = () => {
             cards[q].isComplete = false
             cards[q].isFlipped = false
         }
-        shuffleCards();
+        shuffleCards(level+1);
     }
 
     const handleInitialClose = (s: string) => {
@@ -100,13 +115,14 @@ const Game = () => {
             s;
         setInitialOpen(false)
         setUser(substring)
-        shuffleCards();
+        shuffleCards(0);
         setcurrentGameState('play')
     }
 
     const handleLeaderBoardClose = () => {
         setLeaderBoardOpen(false)
         setcurrentGameState('play')
+        setScores([])
     }
     
     const handleGameOverClose = (s: string) => {
@@ -114,9 +130,13 @@ const Game = () => {
             cards[q].isComplete = false
             cards[q].isFlipped = false
         }
-        shuffleCards();
+        for (var q in scores) {
+            console.log(scores[q])
+        }
+        shuffleCards(0);
         setLevel(0)
         setPoints(0)
+        fetchData()
         setTime({seconds: maxSeconds, max: maxSeconds})
         setcurrentGameState('leaderboard')
         setLeaderBoardOpen(true)
@@ -131,10 +151,11 @@ const Game = () => {
                 open={initialOpen}
                 onClose={handleInitialClose}
             />
-            <LeaderBoardDialog
+            { leaderBoardOpen && <LeaderBoardDialog
+                scores={scores}
                 open={leaderBoardOpen}
                 onClose={handleLeaderBoardClose}
-            />
+            /> }
             <GameOverDialog
                 name={user}
                 open={open}

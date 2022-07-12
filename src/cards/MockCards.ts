@@ -29,7 +29,7 @@ export const CARDS = [
     color: colors.purple[500],
   }),
   new GameCardContent({
-    id: 5,
+    id: 6,
     name: 0x1F439	,
     color: colors.pink[500],
   })
