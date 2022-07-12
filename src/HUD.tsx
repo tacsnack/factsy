@@ -10,17 +10,8 @@ function LinearProgressWithLabel(props: LinearProgressProps & { value: number, s
             <Box sx={{ width: '100%', mr: 1 }}>
                 <LinearProgress variant="determinate" {...props} />
             </Box>
-            <Box sx={{ minWidth: 50 }}>
+            <Box sx={{ minWidth: 30 }}>
                 <Typography variant="body2" color="text.secondary">{`${Math.round(props.seconds)}s`}</Typography>
-            </Box>
-            <Box sx={{ minWidth: 100 }}>
-                <Typography variant="body2" color="text.secondary">Player: {props.name}</Typography>
-            </Box>
-            <Box sx={{ minWidth: 100 }}>
-                <Typography variant="body2" color="text.secondary">Points: {props.points}</Typography>
-            </Box>
-            <Box sx={{ minWidth: 50 }}>
-                <Typography variant="body2" color="text.secondary">Level: {props.level}</Typography>
             </Box>
         </Box>
     );
@@ -44,6 +35,7 @@ interface Props {
     level: number;
     points: number;
     name: string;
+    multiplier: number;
 }
 
 
@@ -59,12 +51,28 @@ const HUD = (props: Props) => {
     });
     
     return (
-        <LinearProgressWithLabel 
-            value={timerState.seconds/timerState.max*100}
-            seconds={timerState.seconds}
-            level={level}
-            points={points}
-            name={name}/>
+        <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ width: '100%' }}>
+                    <Typography variant="body2" color="text.secondary">Player: {props.name}</Typography>
+                </Box>
+                <Box sx={{ minWidth: 100 }}>
+                    <Typography variant="body2" color="text.secondary">Streak: {props.multiplier}</Typography>
+                </Box>
+                <Box sx={{ minWidth: 100 }}>
+                    <Typography variant="body2" color="text.secondary">Points: {props.points}</Typography>
+                </Box>
+                <Box sx={{ minWidth: 50 }}>
+                    <Typography variant="body2" color="text.secondary">Level: {props.level}</Typography>
+                </Box>
+            </Box>
+            <LinearProgressWithLabel 
+                value={timerState.seconds/timerState.max*100}
+                seconds={timerState.seconds}
+                level={level}
+                points={points}
+                name={name}/>
+        </Box>
     );
 }
 

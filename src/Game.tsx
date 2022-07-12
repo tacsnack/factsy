@@ -42,13 +42,14 @@ function shuffle(array: GameCardContent[] ) {
 }
 
 const Game = () => {
-    const maxSeconds = 20;
+    const maxSeconds = 30;
     const [time, setTime] = React.useState({seconds: maxSeconds, max: maxSeconds});
     const [cards, setCards] = React.useState<GameCardContent[]>([]);
     const [scores, setScores] = React.useState<Score[]>([]);
     const [open, setOpen] = React.useState(false);
     const [level, setLevel] = React.useState(0);
     const [points, setPoints] = React.useState(0);
+    const [streak, setStreak] = React.useState(1);
     const [initialOpen, setInitialOpen] = React.useState(true);
     const [leaderBoardOpen, setLeaderBoardOpen] = React.useState(false);
     const [user, setUser] = React.useState("");
@@ -94,8 +95,13 @@ const Game = () => {
     }
 
     const onCardComplete = () => {
-        setPoints(points + 1)
+        setPoints(points + streak)
+        if (level > 0) { setStreak(streak + 1) }
         Math.min(time.seconds+1, maxSeconds)
+    }
+
+    const onCardMiss = () => {
+        setStreak(1)
     }
     
     const onComplete = () => {
@@ -145,8 +151,8 @@ const Game = () => {
 
     return (
         <Container maxWidth="sm">
-            <HUD onTick={onTick} timerState={time} level={level} points={points} name={user}></HUD>
-            <GameCardContainer onComplete={onComplete} onCardComplete={onCardComplete} cards={cards}></GameCardContainer>
+            <HUD onTick={onTick} timerState={time} level={level} points={points} name={user} multiplier={streak}></HUD>
+            <GameCardContainer onComplete={onComplete} onCardComplete={onCardComplete} onCardMiss={onCardMiss} cards={cards}></GameCardContainer>
             <NameDialog
                 open={initialOpen}
                 onClose={handleInitialClose}
