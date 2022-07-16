@@ -7,7 +7,7 @@ import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 import {Score} from './Score';
 
 
@@ -15,10 +15,12 @@ export interface Props {
   open: boolean;
   onClose: () => void;
   scores: Score[];
+  scoresToday: Score[];
+  difficulty: string;
 }
 
 function LeaderBoardDialog(props: Props) {
-  const { onClose, open, scores } = props;
+  const { onClose, open, scores, scoresToday, difficulty} = props;
 
   const handleClose = (event: string, reason: string) => {
     if (reason && reason == "backdropClick") 
@@ -29,11 +31,20 @@ function LeaderBoardDialog(props: Props) {
     onClose();
   };
 
-  for (var q in scores) {
-    console.log(scores[q].id)
-  }
+  const today_scores = scoresToday.map(q => (
+    <ListItem key={q.id}>
+      <Grid container>
+        <Grid item xs>
+          {q.name}
+        </Grid>
+        <Grid item xs spacing={3}>
+          {q.score}
+        </Grid>
+      </Grid>
+    </ListItem>
+  ));
 
-  const listitems = scores.map(q => (
+  const alltime_scores = scores.map(q => (
     <ListItem key={q.id}>
       <Grid container>
         <Grid item xs>
@@ -48,14 +59,21 @@ function LeaderBoardDialog(props: Props) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Top Scores</DialogTitle>
+      {/* <DialogTitle>Top Scores</DialogTitle> */}
       <List sx={{ pt: 0 }}>
         <ListItem>
           <Box component="span" sx={{ p: 2 }}>
             <Button variant="outlined" onClick={() => handleReset()}>New Game</Button>
           </Box>
         </ListItem>
-        {listitems}
+        <ListItem>
+          <Typography variant="h6" component="div" gutterBottom>{difficulty}: Today's Top 5</Typography>
+        </ListItem>
+        {today_scores}
+        <ListItem>
+          <Typography variant="h6" component="div" gutterBottom>{difficulty}: All Time</Typography>
+        </ListItem>
+        {alltime_scores}
       </List>
     </Dialog>
   );

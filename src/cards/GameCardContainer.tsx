@@ -23,12 +23,12 @@ function GameCardContainer(props: ContainerProps) {
       return;
     }
     // console.log(lastFlipped);
-    if (Object.keys(lastFlipped).length != 0) {
+    if (Object.keys(lastFlipped).length !== 0) {
       const flip = lastFlipped as GameCardContent;
       if (q == flip) { // Same card
         return
       }
-      else if (q.color == flip.color) { // Correct card
+      else if (q.color === flip.color) { // Correct card
         q.isFlipped = true;
         flip.isComplete = true;
         q.isComplete = true;

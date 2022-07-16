@@ -36,11 +36,12 @@ interface Props {
     points: number;
     name: string;
     multiplier: number;
+    difficulty: string;
 }
 
 
 const HUD = (props: Props) => {
-    const {timerState, onTick, level, points, name} = props;
+    const {timerState, onTick, level, points, name, difficulty} = props;
     const tick = () => {
         onTick();
     };
@@ -62,8 +63,11 @@ const HUD = (props: Props) => {
                 <Box sx={{ minWidth: 100 }}>
                     <Typography variant="body2" color="text.secondary">Points: {props.points}</Typography>
                 </Box>
-                <Box sx={{ minWidth: 50 }}>
+                <Box sx={{ minWidth: 100 }}>
                     <Typography variant="body2" color="text.secondary">Level: {props.level}</Typography>
+                </Box>
+                <Box sx={{ minWidth: 100 }}>
+                    <Typography variant="body2" color="text.secondary">{props.difficulty}</Typography>
                 </Box>
             </Box>
             <LinearProgressWithLabel 

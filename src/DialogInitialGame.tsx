@@ -30,21 +30,38 @@ const marks = [
 
 
 function valuetext(value: number) {
-  return `${value}°C`;
+  return "";
 }
 
 function valueLabelFormat(value: number) {
   return marks.findIndex((mark) => mark.value === value) + 1;
 }
 
-export function DiscreteSliderValues() {
+function labelToValue(value: string) {
+  let newLabel = marks.at(marks.findIndex((mark) => mark.label === value)) ?? {label: 'Easy', value: 0}
+  return newLabel.value
+}
+
+export interface SliderProps {
+  onChange: (value: number | number[]) => void;
+  value: string;
+}
+
+function DiscreteSliderValues(props: SliderProps) {
+  const { onChange, value } = props;
+
+  const handleChange = (event: Event, newValue: number | number[]) => {
+    onChange(newValue)
+  };
+
   return (
     <Box sx={{ width: 300, p: 1 }}>
       <Slider
         aria-label="Game Difficulty"
-        defaultValue={20}
+        defaultValue={0}
         valueLabelFormat={valueLabelFormat}
         getAriaValueText={valuetext}
+        onChange={handleChange}
         step={null}
         valueLabelDisplay="auto"
         marks={marks}
@@ -55,12 +72,18 @@ export function DiscreteSliderValues() {
 
 export interface Props {
   open: boolean;
-  onClose: (value: string) => void;
+  onClose: (value: string, difficulty: string) => void;
 }
 
-function NameDialog(props: Props) {
+function InitialGameDialog(props: Props) {
   const { onClose, open } = props;
   const [name, setName] = React.useState("");
+  const [difficulty, setDifficulty] = React.useState("Easy");
+
+  const handleChange = (newValue: number | number[]) => {
+    let result = marks.at(marks.findIndex((mark) => mark.value === newValue as number)) ?? {label: 'Easy', value: 0}
+    setDifficulty(result.label)
+  };
 
   const handleClose = (event: string, reason: string) => {
     if (reason && reason == "backdropClick") 
@@ -71,7 +94,7 @@ function NameDialog(props: Props) {
       if (name.length==0) {
         return;
       }
-      onClose(name);
+      onClose(name, difficulty);
   };
 
   return (
@@ -82,7 +105,7 @@ function NameDialog(props: Props) {
           <TextField fullWidth id="outlined-required" label="Name" variant="outlined" value={name} onChange={(e) => setName(e.target.value)} />
         </ListItem>
         <ListItem>
-          <DiscreteSliderValues></DiscreteSliderValues>
+          <DiscreteSliderValues value={difficulty} onChange={handleChange}></DiscreteSliderValues>
         </ListItem>
         <Box component="span" sx={{ p: 2 }}>
           <Button variant="outlined" onClick={() => handleReset()}>Start</Button>
@@ -92,4 +115,4 @@ function NameDialog(props: Props) {
   );
 }
 
-export default NameDialog;
+export default InitialGameDialog;
