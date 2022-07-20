@@ -1,7 +1,6 @@
-import firebase from "firebase/app";
-import "firebase/firestore";
-
-
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+import "firebase/compat/auth";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAbmvFNLGp5271xDc5VsxA6OD3zyI2om10",
@@ -14,11 +13,19 @@ const firebaseConfig = {
     measurementId: "G-YS4HSTKNTD"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
-
-// Initialize Cloud Firestore and get a reference to the service
 export const database = firebase.firestore();
+export const auth = firebase.auth();
 
-
+// Configure FirebaseUI.
+export const uiConfigAuth = {
+    signInFlow: 'popup',
+    callbacks: {
+        // Avoid redirects after sign-in.
+        signInSuccessWithAuthResult: () => false,
+    },
+    signInOptions: [
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    ],
+};

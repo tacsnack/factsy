@@ -8,6 +8,7 @@ interface ContainerProps {
   cards: GameCardContent[];
   onComplete: () => void;
   onCardComplete: () => void;
+  onCardClick: () => void;
   onCardMiss: () => void;
 }
 
@@ -17,8 +18,9 @@ function isComplete(element: any, index: any, array: any) {
 
 function GameCardContainer(props: ContainerProps) {
   const [lastFlipped, setlastFlipped] = useState({});
-  const { cards, onComplete, onCardComplete, onCardMiss } = props;
+  const { cards, onComplete, onCardComplete, onCardMiss, onCardClick } = props;
   const flipQuestion = (q: GameCardContent) => {
+    onCardClick()
     if (q.isComplete) {
       return;
     }
@@ -51,7 +53,7 @@ function GameCardContainer(props: ContainerProps) {
     }
   };
   const flipCheck = (q: GameCardContent) => {
-    console.log("Just Checking");
+    console.log("Still the same card....");
   };
   const items = cards.map(q => (
     <Grid key={q.id} item xs={4}>

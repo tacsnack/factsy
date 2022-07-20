@@ -72,12 +72,11 @@ function DiscreteSliderValues(props: SliderProps) {
 
 export interface Props {
   open: boolean;
-  onClose: (value: string, difficulty: string) => void;
+  onClose: (difficulty: string) => void;
 }
 
 function InitialGameDialog(props: Props) {
   const { onClose, open } = props;
-  const [name, setName] = React.useState("");
   const [difficulty, setDifficulty] = React.useState("Easy");
 
   const handleChange = (newValue: number | number[]) => {
@@ -91,19 +90,13 @@ function InitialGameDialog(props: Props) {
   };
 
   const handleReset = () => {
-      if (name.length==0) {
-        return;
-      }
-      onClose(name, difficulty);
+      onClose(difficulty);
   };
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle><Typography variant="h4" align="center">Game Options</Typography></DialogTitle>
+      <DialogTitle><Typography variant="h4" align="center">Tapped</Typography></DialogTitle>
       <List>
-        <ListItem>
-          <TextField fullWidth id="outlined-required" label="Name" variant="outlined" value={name} onChange={(e) => setName(e.target.value)} />
-        </ListItem>
         <ListItem>
           <DiscreteSliderValues value={difficulty} onChange={handleChange}></DiscreteSliderValues>
         </ListItem>
