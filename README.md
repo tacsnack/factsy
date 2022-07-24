@@ -1,6 +1,6 @@
-# Tapped
+# Factsy/Tapped
 
-What started out as a card based trivia game to learn React turned memory style game quickly. This project uses React, Firebase, and MUI.
+What started out as a card based trivia game to learn React turned memory style game quickly. This project uses React, Firebase, and MUI. 
 
 # Screenshots
 
@@ -8,7 +8,7 @@ What started out as a card based trivia game to learn React turned memory style 
 
 # Scripts
 
-This is based on [running tests](https://facebook.github.io/create-react-app/docs) 
+This is built off [create-react-app](https://facebook.github.io/create-react-app/docs) 
 
 In the project directory, you can run:
 
