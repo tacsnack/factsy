@@ -187,6 +187,12 @@ const Game = () => {
         setcurrentGameState('init')
     }
 
+    const onScoresClick = () => {
+        setcurrentGameState('leaderboard')
+        setLeaderBoardOpen(true);
+        fetchData()
+    }
+
     const onLoginClick = () => {
         setLoginOpen(true)
         setcurrentGameState('login')
@@ -268,6 +274,7 @@ const Game = () => {
             <GameTopBar 
                 timerState={time}
                 isSignedIn={isSignedIn}
+                onScoresClick={onScoresClick} 
                 onLoginClick={onLoginClick} 
                 onLogoutClick={onLogoutClick}
                 username={username}></GameTopBar>
@@ -284,9 +291,7 @@ const Game = () => {
                 points={points}
                 difficulty={difficulty}
             /> }
-            { loginOpen && <LoginDialog
-                open={loginOpen}
-            /> }
+            { loginOpen && <LoginDialog open={loginOpen}/> }
             <GameStats level={level} points={points} multiplier={streak} difficulty={difficulty} onDifficultyClick={onDifficultyClick}></GameStats>
         </Container>
     );

@@ -34,6 +34,7 @@ class TimerState {
 interface Props {
     timerState: TimerState;
     isSignedIn: boolean;
+    onScoresClick: () => void;
     onLoginClick: () => void;
     onLogoutClick: () => void;
     username: string;
@@ -41,16 +42,18 @@ interface Props {
 
 
 const GameTopBar = (props: Props) => {
-    const {timerState, isSignedIn, onLoginClick, onLogoutClick, username} = props;
+    const {timerState, isSignedIn, onScoresClick, onLoginClick, onLogoutClick, username} = props;
     
     return (
         <Box>
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static">
                     <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Tapped
-                    </Typography>
+                        <Button color="inherit" style={{justifyContent: "flex-start"}} sx={{ flexGrow: 1 }} onClick={() => onScoresClick()}>
+                            <Typography variant="h6" component="div" >
+                                Tapped
+                            </Typography>
+                        </Button>
                     { isSignedIn ? (
                         <Button color="inherit" onClick={() => onLogoutClick()}>{username}</Button>
                     ) : (
