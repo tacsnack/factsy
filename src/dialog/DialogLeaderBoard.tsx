@@ -1,5 +1,4 @@
 import React from 'react'
-import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Dialog from '@mui/material/Dialog';
 import Box from '@mui/material/Box';
@@ -7,7 +6,6 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import CelebrationIcon from '@mui/icons-material/Celebration';
-import { styled } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import {Score} from './Score';

@@ -2,15 +2,17 @@ import React from 'react'
 import GameCardContainer from './cards/GameCardContainer';
 import { GameCardContent } from './cards/GameCardContent';
 import { CARDS } from './cards/MockCards';
+
+import LeaderBoardDialog from './dialog/DialogLeaderBoard';
+import InitialGameDialog from './dialog/DialogInitialGame';
+import LoginDialog from './dialog/DialogLogin';
+import {Score} from './dialog/Score';
+import { database, auth } from "./dialog/Firebase"; 
+
 import GameTopBar from './GameTopBar';
-import GameOverDialog from './DialogGameOver';
-import GameStats from './GameStats'
-import LeaderBoardDialog from './DialogLeaderBoard';
-import {Score} from './Score';
-import InitialGameDialog from './DialogInitialGame';
-import LoginDialog from './DialogLogin';
+import GameStats from './GameStats';
+
 import Container from '@mui/material/Container';
-import { database, auth } from "./Firebase"; 
 
 
 function writeUserData(score: number, difficulty: string, level: number, duration: number, name: string) {
@@ -22,7 +24,6 @@ function writeUserData(score: number, difficulty: string, level: number, duratio
         name: name,
         score: score,
         difficulty: difficulty,
-        datetime: isoDateTime,
         date: isoDate,
         level: level, 
         duration: duration
@@ -39,7 +40,6 @@ function writeUserData(score: number, difficulty: string, level: number, duratio
         name: name,
         score: score,
         difficulty: difficulty,
-        datetime: isoDateTime,
         date: isoDate,
         level: level, 
         duration: duration
@@ -102,7 +102,8 @@ const Game = () => {
             console.log(user)
             setIsSignedIn(!!user);
             var name = auth.currentUser?.displayName as string
-            setUsername(name.substring(0, 1))
+            var splitted = name.split(" ", 2);
+            setUsername(splitted[0])
             setLoginOpen(false)
             resetGameState()
             setcurrentGameState('start')

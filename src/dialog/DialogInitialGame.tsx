@@ -1,7 +1,6 @@
 import * as React from 'react';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import TextField from '@mui/material/TextField';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Button from '@mui/material/Button';
@@ -15,16 +14,12 @@ const marks = [
     label: 'Easy',
   },
   {
-    value: 20,
+    value: 50,
     label: 'Medium',
   },
   {
-    value: 40,
-    label: 'Hard',
-  },
-  {
     value: 100,
-    label: 'Lol',
+    label: 'Hard',
   },
 ];
 
@@ -35,11 +30,6 @@ function valuetext(value: number) {
 
 function valueLabelFormat(value: number) {
   return marks.findIndex((mark) => mark.value === value) + 1;
-}
-
-function labelToValue(value: string) {
-  let newLabel = marks.at(marks.findIndex((mark) => mark.label === value)) ?? {label: 'Easy', value: 0}
-  return newLabel.value
 }
 
 export interface SliderProps {

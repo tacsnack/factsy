@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import { auth } from "./Firebase"; 
 
 function LinearProgressWithLabel(props: LinearProgressProps & { value: number, seconds: number}) {
     return (

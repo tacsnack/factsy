@@ -1,8 +1,14 @@
-# Factsy
+# Tapped
 
-A trivia game with a bunch of crap, stats, and facts.
+What started out as a card based trivia game to learn React turned memory style game quickly. This project uses React, Firebase, and MUI.
+
+# Screenshots
+
+![alt text](public/tapped.png)
 
 # Scripts
+
+This is based on [running tests](https://facebook.github.io/create-react-app/docs) 
 
 In the project directory, you can run:
 
@@ -26,6 +32,3 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
