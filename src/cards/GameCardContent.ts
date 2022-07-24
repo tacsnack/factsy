@@ -1,5 +1,6 @@
 export class GameCardContent {
   id: number;
+  match_id: number;
   color: string;
   name: number;
   isFlipped: boolean = false;
@@ -7,6 +8,7 @@ export class GameCardContent {
 
   constructor(initializer?: any) {
     this.id = initializer.id;
+    this.match_id = initializer.match_id;
     this.color = initializer.color;
     this.name = initializer.name;
     if (initializer.isFlipped) this.isFlipped = initializer.isFlipped;

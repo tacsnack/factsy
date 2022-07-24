@@ -1,7 +1,7 @@
 import React from 'react'
 import GameCardContainer from './cards/GameCardContainer';
 import { GameCardContent } from './cards/GameCardContent';
-import { CARDS } from './cards/MockCards';
+import { EASY_CARDS, MEDIUM_CARDS, HARD_CARDS } from './cards/MockCards';
 
 import LeaderBoardDialog from './dialog/DialogLeaderBoard';
 import InitialGameDialog from './dialog/DialogInitialGame';
@@ -105,7 +105,7 @@ const Game = () => {
             var splitted = name.split(" ", 2);
             setUsername(splitted[0])
             setLoginOpen(false)
-            resetGameState()
+            resetGameState(difficulty)
             setcurrentGameState('start')
         });
         return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
@@ -150,37 +150,39 @@ const Game = () => {
         })
     }
 
-    const shuffleCards = (lev: number) => {
+    const shuffleCards = (lev: number, diff: string) => {
         var shuffledCards : GameCardContent[] = [];
-        for (var q in CARDS) {
-            // console.log(q);
-            shuffledCards.push(CARDS[q]);
-            shuffledCards.push({...CARDS[q]});
-            shuffledCards[shuffledCards.length-1].id += 10;
+        if (diff === "Easy") {
+            for (var q in EASY_CARDS) {shuffledCards.push(EASY_CARDS[q]);}
+        }
+        if (diff === "Medium") {
+            for (var q in MEDIUM_CARDS) {shuffledCards.push(MEDIUM_CARDS[q]);}
+        }
+        if (diff === "Hard") {
+            for (var q in HARD_CARDS) {shuffledCards.push(HARD_CARDS[q]);}
         }
         shuffledCards = shuffledCards.sort( () => .5 - Math.random() ); // not good rando... 
         if (lev > 5) { shuffledCards = shuffle(shuffledCards) } // better...
         setCards(shuffledCards)
     }
 
-    const resetGameState = () => {
+    const resetGameState = (diff: string) => {
         for (var q in cards) {
             cards[q].isComplete = false
             cards[q].isFlipped = false
         }
-        shuffleCards(0);
+        shuffleCards(0, diff);
         setLevel(0)
         setDuration(0)
         setPoints(0)
         setStreak(1)
         setTime({seconds: maxSeconds, max: maxSeconds})
-        if (difficulty === "Lol") {
-            setTime({seconds:5, max:5})
-        }
+        // if (difficulty === "Lol") {
+        //     setTime({seconds:5, max:5})
+        // }
     }
 
     const onDifficultyClick = () => {
-        resetGameState()
         setInitialOpen(true)
         setcurrentGameState('init')
     }
@@ -193,7 +195,7 @@ const Game = () => {
     const onLogoutClick = () => {
         auth.signOut()
         setLoginOpen(false)
-        resetGameState()
+        resetGameState(difficulty)
         setcurrentGameState('start')
     }
 
@@ -226,17 +228,13 @@ const Game = () => {
 
     const onCardMiss = () => {
         setStreak(1)
-        if (difficulty === "Medium") {
-            setPoints(points - 1)
-        }
-        if (difficulty === "Hard") {
-            setPoints(points - 1)
-            setTime({seconds: time.seconds-1, max: maxSeconds})
-        }
-        if (difficulty === "Lol") {
-            setPoints(points - 10)
-            setTime({seconds: time.seconds-1, max: maxSeconds})
-        }
+        // if (difficulty === "Medium") {
+        //     setPoints(points - 1)
+        // }
+        // if (difficulty === "Hard") {
+        //     setPoints(points - 1)
+        //     setTime({seconds: time.seconds-1, max: maxSeconds})
+        // }
     }
     
     const onComplete = () => {
@@ -247,21 +245,18 @@ const Game = () => {
             cards[q].isComplete = false
             cards[q].isFlipped = false
         }
-        shuffleCards(level+1);
+        shuffleCards(level+1, difficulty);
     }
 
     const handleInitialClose = (d: string) => {
         setInitialOpen(false)
         setcurrentGameState('start')
         setDifficulty(d);
-        resetGameState()
-        if (d === "Lol") {
-            setTime({seconds:5, max:5})
-        }
+        resetGameState(d);
     }
 
     const handleLeaderBoardClose = () => {
-        resetGameState()
+        resetGameState(difficulty)
         setLeaderBoardOpen(false)
         setcurrentGameState('start')
         setScores([])

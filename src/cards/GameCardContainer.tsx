@@ -30,7 +30,7 @@ function GameCardContainer(props: ContainerProps) {
       if (q == flip) { // Same card
         return
       }
-      else if (q.color === flip.color) { // Correct card
+      else if (q.match_id === flip.match_id) { // Correct card
         q.isFlipped = true;
         flip.isComplete = true;
         q.isComplete = true;
